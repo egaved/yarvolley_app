@@ -35,9 +35,9 @@ class Standing {
       'position': position,
       'balance': balance,
       'points': points,
-      'updatedAt': updatedAt.millisecondsSinceEpoch,
-      'leagueId': leagueId,
-      'teamId': teamId,
+      'updated_at': updatedAt.millisecondsSinceEpoch,
+      'league_id': leagueId,
+      'team_id': teamId,
     };
   }
 
@@ -50,9 +50,9 @@ class Standing {
       position: map['position'] as int,
       balance: map['balance'] as int,
       points: map['points'] as int,
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
-      leagueId: map['leagueId'] as int,
-      teamId: map['teamId'] as int,
+      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updated_at'] as int),
+      leagueId: map['league_id'] as int,
+      teamId: map['team_id'] as int,
     );
   }
 

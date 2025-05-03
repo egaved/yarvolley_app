@@ -20,9 +20,9 @@ class Player {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'birthYear': birthYear,
+      'birth_year': birthYear,
       'height': height,
-      'teamId': teamId,
+      'team_id': teamId,
     };
   }
 
@@ -30,9 +30,9 @@ class Player {
     return Player(
       id: map['id'] as int,
       name: map['name'] as String,
-      birthYear: map['birthYear'] as int,
+      birthYear: map['birth_year'] as int,
       height: map['height'] as int,
-      teamId: map['teamId'] as int,
+      teamId: map['team_id'] as int,
     );
   }
 

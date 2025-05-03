@@ -2,10 +2,6 @@
 import 'dart:convert';
 import 'dart:core';
 
-import 'package:collection/collection.dart';
-
-import 'package:yarvolley_app/domain/set.dart';
-
 class Match {
   int id;
   DateTime date;
@@ -14,37 +10,73 @@ class Match {
   int firstTeamId;
   int secondTeamId;
   int leagueId;
-  int firstTeamScore;
-  int secondTeamScore;
-  int winnerTeamId;
-  List<Set> setList;
+  int? firstTeamScore;
+  int? secondTeamScore;
+  int? winnerTeamId;
+
   Match({
     required this.id,
     required this.date,
     required this.location,
-    required this.isUpcoming,
+    required this.firstTeamId,
+    required this.secondTeamId,
+    required this.leagueId,
+    this.isUpcoming = true,
+    this.firstTeamScore,
+    this.secondTeamScore,
+    this.winnerTeamId,
+  });
+
+  Match.completed({
+    required this.id,
+    required this.date,
+    required this.location,
     required this.firstTeamId,
     required this.secondTeamId,
     required this.leagueId,
     required this.firstTeamScore,
     required this.secondTeamScore,
     required this.winnerTeamId,
-    required this.setList,
-  });
+  }) : isUpcoming = false;
+
+  Match copyWith({
+    int? id,
+    DateTime? date,
+    String? location,
+    bool? isUpcoming,
+    int? firstTeamId,
+    int? secondTeamId,
+    int? leagueId,
+    int? firstTeamScore,
+    int? secondTeamScore,
+    int? winnerTeamId,
+  }) {
+    return Match(
+      id: id ?? this.id,
+      date: date ?? this.date,
+      location: location ?? this.location,
+      isUpcoming: isUpcoming ?? this.isUpcoming,
+      firstTeamId: firstTeamId ?? this.firstTeamId,
+      secondTeamId: secondTeamId ?? this.secondTeamId,
+      leagueId: leagueId ?? this.leagueId,
+      firstTeamScore: firstTeamScore ?? this.firstTeamScore,
+      secondTeamScore: secondTeamScore ?? this.secondTeamScore,
+      winnerTeamId: winnerTeamId ?? this.winnerTeamId,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
       'date': date.millisecondsSinceEpoch,
       'location': location,
-      'isUpcoming': isUpcoming,
-      'firstTeamId': firstTeamId,
-      'secondTeamId': secondTeamId,
-      'leagueId': leagueId,
-      'firstTeamScore': firstTeamScore,
-      'secondTeamScore': secondTeamScore,
-      'winnerTeamId': winnerTeamId,
-      'setList': setList.map((x) => x.toMap()).toList(),
+      'is_upcoming': isUpcoming,
+      'team1_id': firstTeamId,
+      'team2_id': secondTeamId,
+      'league_id': leagueId,
+      'team1_total_score': firstTeamScore,
+      'team2_total_score': secondTeamScore,
+      'winner_team_id': winnerTeamId,
     };
   }
 
@@ -53,18 +85,13 @@ class Match {
       id: map['id'] as int,
       date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
       location: map['location'] as String,
-      isUpcoming: map['isUpcoming'] as bool,
-      firstTeamId: map['firstTeamId'] as int,
-      secondTeamId: map['secondTeamId'] as int,
-      leagueId: map['leagueId'] as int,
-      firstTeamScore: map['firstTeamScore'] as int,
-      secondTeamScore: map['secondTeamScore'] as int,
-      winnerTeamId: map['winnerTeamId'] as int,
-      setList: List<Set>.from(
-        (map['setList'] as List<int>).map<Set>(
-          (x) => Set.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      isUpcoming: map['is_upcoming'] as bool,
+      firstTeamId: map['team1_id'] as int,
+      secondTeamId: map['team2_id'] as int,
+      leagueId: map['league_id'] as int,
+      firstTeamScore: map['team1_total_score'] as int,
+      secondTeamScore: map['team2_total_score'] as int,
+      winnerTeamId: map['winner_team_id'] as int,
     );
   }
 
@@ -75,13 +102,12 @@ class Match {
 
   @override
   String toString() {
-    return 'Match(id: $id, date: $date, location: $location, isUpcoming: $isUpcoming, firstTeamId: $firstTeamId, secondTeamId: $secondTeamId, leagueId: $leagueId, firstTeamScore: $firstTeamScore, secondTeamScore: $secondTeamScore, winnerTeamId: $winnerTeamId, setList: $setList)';
+    return 'Match(id: $id, date: $date, location: $location, isUpcoming: $isUpcoming, firstTeamId: $firstTeamId, secondTeamId: $secondTeamId, leagueId: $leagueId, firstTeamScore: $firstTeamScore, secondTeamScore: $secondTeamScore, winnerTeamId: $winnerTeamId)';
   }
 
   @override
   bool operator ==(covariant Match other) {
     if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
 
     return other.id == id &&
         other.date == date &&
@@ -92,8 +118,7 @@ class Match {
         other.leagueId == leagueId &&
         other.firstTeamScore == firstTeamScore &&
         other.secondTeamScore == secondTeamScore &&
-        other.winnerTeamId == winnerTeamId &&
-        listEquals(other.setList, setList);
+        other.winnerTeamId == winnerTeamId;
   }
 
   @override
@@ -107,35 +132,6 @@ class Match {
         leagueId.hashCode ^
         firstTeamScore.hashCode ^
         secondTeamScore.hashCode ^
-        winnerTeamId.hashCode ^
-        setList.hashCode;
-  }
-
-  Match copyWith({
-    int? id,
-    DateTime? date,
-    String? location,
-    bool? isUpcoming,
-    int? firstTeamId,
-    int? secondTeamId,
-    int? leagueId,
-    int? firstTeamScore,
-    int? secondTeamScore,
-    int? winnerTeamId,
-    List<Set>? setList,
-  }) {
-    return Match(
-      id: id ?? this.id,
-      date: date ?? this.date,
-      location: location ?? this.location,
-      isUpcoming: isUpcoming ?? this.isUpcoming,
-      firstTeamId: firstTeamId ?? this.firstTeamId,
-      secondTeamId: secondTeamId ?? this.secondTeamId,
-      leagueId: leagueId ?? this.leagueId,
-      firstTeamScore: firstTeamScore ?? this.firstTeamScore,
-      secondTeamScore: secondTeamScore ?? this.secondTeamScore,
-      winnerTeamId: winnerTeamId ?? this.winnerTeamId,
-      setList: setList ?? this.setList,
-    );
+        winnerTeamId.hashCode;
   }
 }
