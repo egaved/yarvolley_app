@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yarvolley_app/appearance/screens/greeting_page.dart';
+import 'package:yarvolley_app/appearance/screens/league_select.dart';
 // import 'package:yarvolley_app/appearance/screens/home_page.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const LeagueSelectScreen(),
+      home: LeagueSelectScreen(),
     );
   }
 }

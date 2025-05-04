@@ -6,9 +6,10 @@ plugins {
 }
 
 android {
+    ndkVersion = "27.2.12479018"
     namespace = "com.example.yarvolley_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

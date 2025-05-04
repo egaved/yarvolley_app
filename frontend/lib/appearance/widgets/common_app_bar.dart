@@ -11,13 +11,19 @@ class CommonPageAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         title,
-        style: TextStyle(fontFamily: 'AppCommonFont', color: Colors.white),
+        style: TextStyle(
+          fontFamily: 'AppCommonFont',
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+        ),
       ),
       backgroundColor: primaryColor,
-      centerTitle: true,
+      centerTitle: false,
+      toolbarHeight: 40.0,
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(40.0);
 }
