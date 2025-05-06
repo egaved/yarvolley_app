@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:yarvolley_app/appearance/theme/colors.dart';
 import 'package:yarvolley_app/domain/league.dart';
-import 'package:yarvolley_app/services/favorite_leagues_service.dart';
+import 'package:yarvolley_app/services/preferences_service.dart';
 
 class LeagueItem extends StatefulWidget {
   final League league;
   // final VoidCallback onSubscribe;
-  final FavoriteLeaguesService favoriteService;
+  final PreferencesService favoriteService;
+  final VoidCallback onFavoriteChanged;
 
   const LeagueItem({
     super.key,
     required this.league,
     required this.favoriteService,
+    required this.onFavoriteChanged,
   });
 
   @override
@@ -70,7 +72,10 @@ class _LeagueItemState extends State<LeagueItem> {
               ),
             ),
             ElevatedButton(
-              onPressed: _toggleFavorite,
+              onPressed: () async {
+                await _toggleFavorite();
+                widget.onFavoriteChanged();
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor:
                     _isFavorite ? secondaryColor : primaryColor, // Цвет кнопки
