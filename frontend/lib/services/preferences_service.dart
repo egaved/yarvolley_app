@@ -14,7 +14,7 @@ class PreferencesService {
     return stringList?.map((str) => int.parse(str)).toList() ?? [];
   }
 
-  Future<void> addLeague(int leagueId) async {
+  Future<void> addFavoriteLeague(int leagueId) async {
     final prefs = await SharedPreferences.getInstance();
     final List<int> ids = await getFavoriteLeagueIds();
     if (!ids.contains(leagueId)) {
@@ -24,7 +24,7 @@ class PreferencesService {
     }
   }
 
-  Future<void> removeLeague(int leagueId) async {
+  Future<void> removeFavoriteLeague(int leagueId) async {
     final prefs = await SharedPreferences.getInstance();
     final List<int> ids = await getFavoriteLeagueIds();
     final List<String> stringList =

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yarvolley_app/data/repositories/league_repo.dart';
+import 'package:yarvolley_app/data/repositories/match_repo.dart';
+import 'package:yarvolley_app/presentation/screens/home_page.dart';
+import 'package:yarvolley_app/presentation/screens/league_select.dart';
+import 'package:yarvolley_app/services/api_service.dart';
 import 'package:yarvolley_app/services/preferences_service.dart';
-import 'package:yarvolley_app/appearance/screens/league_select.dart';
-import 'package:yarvolley_app/appearance/screens/home_page.dart';
 
-Future<Widget> getInitialScreen() async {
+Future<Widget> getInitialScreen(PreferencesService preferencesService) async {
   try {
-    final preferenceService = PreferencesService();
-    final hasData = await preferenceService.hasFavoriteLeagues();
-    // return hasData ?? false ? const HomePage() : LeagueSelectScreen();
-    return LeagueSelectScreen();
+    final hasData = await preferencesService.hasFavoriteLeagues();
+    // return hasData ?? false ? const HomePage() : const LeagueSelectScreen();
+    return const LeagueSelectScreen();
   } catch (e) {
-    return LeagueSelectScreen();
+    debugPrint('Error checking favorite leagues: $e');
+    return const LeagueSelectScreen();
   }
 }
 
@@ -20,15 +24,14 @@ class YarVolleyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Widget>(
-      future: getInitialScreen(),
+      future: getInitialScreen(context.read<PreferencesService>()),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return snapshot.data!;
-        } else {
-          return const MaterialApp(
-            home: Scaffold(body: Center(child: CircularProgressIndicator())),
-          );
         }
+        return const MaterialApp(
+          home: Scaffold(body: Center(child: CircularProgressIndicator())),
+        );
       },
     );
   }
@@ -41,12 +44,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'YarVolley',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => LeagueRepository(ApiClient())),
+        RepositoryProvider(create: (context) => PreferencesService()),
+        RepositoryProvider(create: (context) => MatchRepository(ApiClient())),
+      ],
+      child: MaterialApp(
+        title: 'YarVolley',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        home: const YarVolleyApp(),
       ),
-      home: const YarVolleyApp(),
     );
   }
 }
