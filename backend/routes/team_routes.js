@@ -8,5 +8,6 @@ router.get('/teams/:teamId', teamController.getTeamById);
 
 router.get('/leagues/:leagueId/teams', teamController.getTeamsByLeagueId);
 
+router.get('/teams', teamController.getTeamsByIds);
 
 module.exports = router;

@@ -11,8 +11,9 @@ class MatchLoading extends MatchState {}
 
 class MatchLoaded extends MatchState {
   final List<Match> matches;
+  final Map<int, String> teamNames;
 
-  MatchLoaded(this.matches);
+  MatchLoaded(this.matches, this.teamNames);
 }
 
 class MatchError extends MatchState {
@@ -21,13 +22,23 @@ class MatchError extends MatchState {
 }
 
 class MatchCubit extends Cubit<MatchState> {
-  final MatchRepository repository;
-  final PreferencesService preferencesService;
+  final MatchRepository _repository;
+  final PreferencesService _preferencesService;
 
-  MatchCubit(this.repository, this.preferencesService) : super(MatchInitial());
+  MatchCubit(this._repository, this._preferencesService)
+    : super(MatchInitial());
+
+  Future<Map<int, String>> _loadTeamNames(List<Match> matches) async {
+    Set<int> teamIds =
+        matches
+            .expand((match) => [match.firstTeamId, match.secondTeamId])
+            .toSet();
+    final teamNames = await _repository.getTeamNames(teamIds);
+    return teamNames;
+  }
 
   Future<void> loadFavoriteMatches() async {
-    final favoriteLeagues = await preferencesService.getFavoriteLeagueIds();
+    final favoriteLeagues = await _preferencesService.getFavoriteLeagueIds();
     await _loadMatchesForHomePage(favoriteLeagues);
   }
 
@@ -35,8 +46,9 @@ class MatchCubit extends Cubit<MatchState> {
     emit(MatchLoading());
 
     try {
-      final matches = await repository.getTeamMatches(teamId.toString());
-      emit(MatchLoaded(matches));
+      final matches = await _repository.getTeamMatches(teamId.toString());
+      final teamNames = await _loadTeamNames(matches);
+      emit(MatchLoaded(matches, teamNames));
     } catch (e) {
       emit(MatchError('Не удалось загрузить матчи.'));
     }
@@ -47,13 +59,13 @@ class MatchCubit extends Cubit<MatchState> {
     try {
       final List<Future<List<Match>>> futures =
           leagueIds
-              .map((leagueId) => repository.getLeagueMatches(leagueId))
+              .map((leagueId) => _repository.getLeagueMatches(leagueId))
               .toList();
       final List<List<Match>> matchesList = await Future.wait(futures);
       final List<Match> allMatches =
           matchesList.expand((matches) => matches).toList();
-
-      emit(MatchLoaded(allMatches));
+      final teamNames = await _loadTeamNames(allMatches);
+      emit(MatchLoaded(allMatches, teamNames));
     } catch (e) {
       print(e.toString());
       emit(MatchError('Не удалось загрузить матчи.'));

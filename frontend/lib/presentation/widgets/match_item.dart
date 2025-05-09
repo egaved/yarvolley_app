@@ -63,6 +63,7 @@ class MatchItem extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 8),
                       Text(
                         '${match.firstTeamScore ?? " - "} : ${match.secondTeamScore ?? " - "}',
                         style: const TextStyle(
@@ -73,7 +74,12 @@ class MatchItem extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${match.date.day}.${match.date.month}.${match.date.year} ${match.date.hour}:${match.date.minute.toString().padLeft(2, '0')}',
+                        '${match.date.day.toString().padLeft(2, '0')}.${match.date.month.toString().padLeft(2, '0')}.${match.date.year}',
+                        style: const TextStyle(fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        '${match.date.hour.toString().padLeft(2, '0')}:${match.date.minute.toString().padLeft(2, '0')}',
                         style: const TextStyle(fontSize: 12),
                         textAlign: TextAlign.center,
                       ),

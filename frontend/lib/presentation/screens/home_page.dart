@@ -41,16 +41,22 @@ class _HomeScreenView extends StatelessWidget {
                 if (state.matches.isEmpty) {
                   return const Center(child: Text('Матчи не найдены'));
                 }
+
                 return Expanded(
                   child: ListView.builder(
                     padding: const EdgeInsets.all(5),
                     itemCount: state.matches.length,
                     itemBuilder: (context, index) {
                       final match = state.matches[index];
+
                       return MatchItem(
                         match: match,
-                        firstTeamName: "GooD-ЯМР",
-                        secondTeamName: "Команда 2",
+                        firstTeamName:
+                            state.teamNames[match.firstTeamId] ??
+                            'Неизвестная команда',
+                        secondTeamName:
+                            state.teamNames[match.secondTeamId] ??
+                            'Неизвестная команда',
                       );
                     },
                   ),

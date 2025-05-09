@@ -14,6 +14,22 @@ class TeamService {
     return teams;
   }
 
+  async getTeamsNames(teamIds) {
+    if (!Array.isArray(teamIds) || !teamIds.every(id => typeof id === 'number')) {
+      throw new Error('Invalid team IDs');
+    }
+    const teams = await teamRepository.getTeamsNames(teamIds);
+
+    const foundIds = teams.map(team => team.id);
+    const missingIds = teamIds.filter(id => !foundIds.includes(id));
+    
+    if (missingIds.length > 0) {
+      console.warn(`Teams not found for IDs: ${missingIds}`);
+    }
+
+    return teams;
+  }
+
   async getTeamById(teamId) {
     if (!teamId || typeof teamId !== 'number') {
       throw new Error('Invalid team ID'); 

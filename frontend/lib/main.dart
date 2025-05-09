@@ -10,8 +10,7 @@ import 'package:yarvolley_app/services/preferences_service.dart';
 Future<Widget> getInitialScreen(PreferencesService preferencesService) async {
   try {
     final hasData = await preferencesService.hasFavoriteLeagues();
-    // return hasData ?? false ? const HomePage() : const LeagueSelectScreen();
-    return const LeagueSelectScreen();
+    return hasData ?? false ? const HomeScreen() : const LeagueSelectScreen();
   } catch (e) {
     debugPrint('Error checking favorite leagues: $e');
     return const LeagueSelectScreen();

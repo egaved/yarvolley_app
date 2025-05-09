@@ -9,6 +9,14 @@ class TeamRepository {
     return rows;
   }
 
+  async getTeamsNames(teamIds) {
+    const [rows] = await pool.query(`
+      SELECT id, name FROM Team
+      WHERE id IN (?)
+    `, [teamIds]);
+    return rows;
+  }
+
   async getTeamsByLeagueId(leagueId) {
     const [rows] = await pool.query(`
       SELECT * FROM Team
