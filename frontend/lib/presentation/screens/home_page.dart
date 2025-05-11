@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/logic/cubits/match_cubit.dart';
-import 'package:yarvolley_app/presentation/theme/images.dart';
 import 'package:yarvolley_app/presentation/widgets/main_page_app_bar.dart';
 import 'package:yarvolley_app/data/repositories/match_repo.dart';
 import 'package:yarvolley_app/presentation/widgets/match_item.dart';
@@ -17,7 +16,7 @@ class HomeScreen extends StatelessWidget {
           (context) => MatchCubit(
             context.read<MatchRepository>(),
             context.read<PreferencesService>(),
-          )..loadFavoriteMatches(),
+          )..loadFavoriteLeaguesMatches(),
       child: const _HomeScreenView(),
     );
   }

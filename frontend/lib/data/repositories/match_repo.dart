@@ -5,7 +5,7 @@ import 'package:yarvolley_app/data/domain/match.dart';
 
 class MatchRepository {
   final ApiClient _apiClient;
-  final Map<int, String> _teamNamesCache = {}; // Кэш для названий команд
+  final Map<int, String> _teamNamesCache = {};
 
   MatchRepository(this._apiClient);
 
@@ -17,7 +17,7 @@ class MatchRepository {
           .map((json) => Match.fromMap(json as Map<String, dynamic>))
           .toList();
     } else {
-      throw Exception('Не удалось загрзить матчи');
+      throw Exception('Не удалось загрзить матчи. (client side)');
     }
   }
 

@@ -41,7 +41,7 @@ exports.createTeam = async (req, res) => {
   }
 };
 
-exports.getTeamsByIds = async (req, res) => {
+exports.getTeamNamesByIds = async (req, res) => {
   try {
     const idsParam = req.query.ids;
     if (!idsParam) {

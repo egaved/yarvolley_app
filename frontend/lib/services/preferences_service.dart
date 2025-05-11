@@ -1,39 +1,37 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService {
-  static const String _favoriteLeaguesKey = 'favorite_leagues';
-
-  Future<bool?> hasFavoriteLeagues() async {
-    final data = await getFavoriteLeagueIds();
+  Future<bool?> hasData(String key) async {
+    final data = await getData(key);
     return data.isNotEmpty;
   }
 
-  Future<List<int>> getFavoriteLeagueIds() async {
+  Future<List<int>> getData(String key) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String>? stringList = prefs.getStringList(_favoriteLeaguesKey);
+    final List<String>? stringList = prefs.getStringList(key);
     return stringList?.map((str) => int.parse(str)).toList() ?? [];
   }
 
-  Future<void> addFavoriteLeague(int leagueId) async {
+  Future<void> addFavoriteItem(String key, int id) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<int> ids = await getFavoriteLeagueIds();
-    if (!ids.contains(leagueId)) {
+    final List<int> ids = await getData(key);
+    if (!ids.contains(id)) {
       final List<String> stringList =
-          ids.map((id) => id.toString()).toList()..add(leagueId.toString());
-      await prefs.setStringList(_favoriteLeaguesKey, stringList);
+          ids.map((id) => id.toString()).toList()..add(id.toString());
+      await prefs.setStringList(key, stringList);
     }
   }
 
-  Future<void> removeFavoriteLeague(int leagueId) async {
+  Future<void> removeFavoriteItem(String key, int id) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<int> ids = await getFavoriteLeagueIds();
+    final List<int> ids = await getData(key);
     final List<String> stringList =
-        ids.where((id) => id != leagueId).map((id) => id.toString()).toList();
-    await prefs.setStringList(_favoriteLeaguesKey, stringList);
+        ids.where((id) => id != id).map((id) => id.toString()).toList();
+    await prefs.setStringList(key, stringList);
   }
 
-  Future<bool> isLeagueFavorite(int leagueId) async {
-    final List<int> ids = await getFavoriteLeagueIds();
-    return ids.contains(leagueId);
+  Future<bool> isItemFavorite(String key, int id) async {
+    final List<int> ids = await getData(key);
+    return ids.contains(id);
   }
 }

@@ -31,7 +31,7 @@ class LeagueCubit extends Cubit<LeagueState> {
     emit(LeagueLoading());
     try {
       final leagues = await repository.getLeagues();
-      final favoriteIds = await preferencesService.getFavoriteLeagueIds();
+      final favoriteIds = await preferencesService.getData('favorite_leagues');
       emit(LeagueLoaded(leagues, favoriteIds.toSet()));
     } catch (e) {
       emit(LeagueError('Не удалось загрузить лиги'));
@@ -44,10 +44,13 @@ class LeagueCubit extends Cubit<LeagueState> {
       final favoriteIds = Set<int>.from(state.favoriteLeagueIds);
       if (favoriteIds.contains(leagueId)) {
         favoriteIds.remove(leagueId);
-        await preferencesService.removeFavoriteLeague(leagueId);
+        await preferencesService.removeFavoriteItem(
+          'favorite_leagues',
+          leagueId,
+        );
       } else {
         favoriteIds.add(leagueId);
-        await preferencesService.addFavoriteLeague(leagueId);
+        await preferencesService.addFavoriteItem('favorite_leagues', leagueId);
       }
       emit(LeagueLoaded(state.leagues, favoriteIds));
     }

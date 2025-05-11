@@ -2,12 +2,14 @@
 import 'dart:convert';
 import 'dart:core';
 
-class Team {
-  int id;
-  String name;
-  int leagueId;
+import 'package:equatable/equatable.dart';
 
-  Team({required this.id, required this.name, required this.leagueId});
+class Team extends Equatable {
+  final int id;
+  final String name;
+  final int leagueId;
+
+  const Team({required this.id, required this.name, required this.leagueId});
 
   Team copyWith({int? id, String? name, int? leagueId}) {
     return Team(
@@ -25,7 +27,7 @@ class Team {
     return Team(
       id: map['id'] as int,
       name: map['name'] as String,
-      leagueId: map[''] as int,
+      leagueId: map['league_id'] as int,
     );
   }
 
@@ -38,12 +40,5 @@ class Team {
   String toString() => 'Team(id: $id, name: $name, leagueId: $leagueId)';
 
   @override
-  bool operator ==(covariant Team other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id && other.name == name && other.leagueId == leagueId;
-  }
-
-  @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ leagueId.hashCode;
+  List<Object> get props => [id, name, leagueId];
 }
