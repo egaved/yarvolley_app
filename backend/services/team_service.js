@@ -30,6 +30,24 @@ class TeamService {
     return teams;
   }
 
+  async getFavoriteLeaguesTeams(leagueIdList) {
+    if (!leagueIdList || leagueIdList.length === 0) {
+      return [];
+    }
+    const rows = await teamRepository.getTeamsByLeagueIdList(leagueIdList);
+    const leagues = rows.reduce((acc, row) => {
+      const leagueId = row.league_id;
+      let league = acc.find(l => l.league_id === leagueId);
+      if (!league) {
+        league = { league_id: row.league_id, league_name: row.league_name, teams: [] };
+        acc.push(league);
+      }
+      league.teams.push({ team_id: row.team_id, team_name: row.team_name });
+      return acc;
+    }, []);
+    return leagues;
+  }
+
   async getTeamById(teamId) {
     if (!teamId || typeof teamId !== 'number') {
       throw new Error('Invalid team ID'); 

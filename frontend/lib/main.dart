@@ -5,6 +5,7 @@ import 'package:yarvolley_app/data/repositories/match_repo.dart';
 import 'package:yarvolley_app/data/repositories/team_repo.dart';
 import 'package:yarvolley_app/presentation/screens/home_page.dart';
 import 'package:yarvolley_app/presentation/screens/league_select.dart';
+import 'package:yarvolley_app/presentation/screens/team_select.dart';
 import 'package:yarvolley_app/presentation/screens/teams_page.dart';
 import 'package:yarvolley_app/services/api_service.dart';
 import 'package:yarvolley_app/services/preferences_service.dart';
@@ -13,10 +14,10 @@ Future<Widget> getInitialScreen(PreferencesService preferencesService) async {
   try {
     final hasData = await preferencesService.hasData('favorite_leagues');
     // return hasData ?? false ? const HomeScreen() : const LeagueSelectScreen();
-    return const TeamScreen();
+    return const TeamSelectScreen();
   } catch (e) {
     debugPrint('Error checking favorite leagues: $e');
-    return const TeamScreen();
+    return const TeamSelectScreen();
   }
 }
 

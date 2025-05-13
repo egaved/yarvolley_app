@@ -63,3 +63,21 @@ exports.getTeamNamesByIds = async (req, res) => {
     return res.status(404).json({ error: error.message });
   }
 };
+
+exports.getFavoriteLeaguesTeams = async(req, res) => {
+  try {
+    const leagueIds = req.query.league_ids;
+      if (!leagueIds) {
+        return res.status(400).json({ error: 'Параметр league_ids обязателен' });
+      }
+      const leagueIdList = leagueIds.split(',').map(id => parseInt(id, 10));
+      if (leagueIdList.some(isNaN)) {
+        return res.status(400).json({ error: 'Некорректные идентификаторы лиг' });
+      }
+      const data = await teamService.getFavoriteLeaguesTeams(leagueIdList);
+      res.json(data);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Внутренняя ошибка сервера' });
+  }
+}

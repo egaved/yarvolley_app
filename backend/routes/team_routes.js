@@ -10,4 +10,6 @@ router.get('/leagues/:leagueId/teams', teamController.getTeamsByLeagueId);
 
 router.get('/teams', teamController.getTeamNamesByIds);
 
+router.get('/favorite_leagues_teams', teamController.getFavoriteLeaguesTeams);
+
 module.exports = router;

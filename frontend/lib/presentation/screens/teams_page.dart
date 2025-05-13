@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/repositories/team_repo.dart';
 import 'package:yarvolley_app/logic/cubits/team_cubit.dart';
+import 'package:yarvolley_app/presentation/screens/team_select.dart';
 import 'package:yarvolley_app/presentation/theme/colors.dart';
 import 'package:yarvolley_app/presentation/widgets/common_app_bar.dart';
 import 'package:yarvolley_app/presentation/widgets/team/team_details.dart';
@@ -89,7 +90,14 @@ class NoTeamsWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TeamSelectScreen(),
+                  ),
+                );
+              },
               child: const Text('Выбрать'),
             ),
           ],
