@@ -14,10 +14,10 @@ Future<Widget> getInitialScreen(PreferencesService preferencesService) async {
   try {
     final hasData = await preferencesService.hasData('favorite_leagues');
     // return hasData ?? false ? const HomeScreen() : const LeagueSelectScreen();
-    return const LeagueSelectScreen();
+    return const TeamSelectScreen();
   } catch (e) {
     debugPrint('Error checking favorite leagues: $e');
-    return const LeagueSelectScreen();
+    return const TeamSelectScreen();
   }
 }
 

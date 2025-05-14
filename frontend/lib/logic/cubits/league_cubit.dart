@@ -31,7 +31,7 @@ class LeagueCubit extends Cubit<LeagueState> {
     emit(LeagueLoading());
     try {
       final leagues = await repository.getLeagues();
-      final favoriteIds = await preferencesService.getData('favorite_leagues');
+      final favoriteIds = await preferencesService.getIds('favorite_leagues');
       emit(LeagueLoaded(leagues, favoriteIds.toSet()));
     } catch (e) {
       emit(LeagueError('Не удалось загрузить лиги'));

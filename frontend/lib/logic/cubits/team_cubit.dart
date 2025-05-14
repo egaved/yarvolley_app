@@ -36,9 +36,7 @@ class TeamCubit extends Cubit<TeamState> {
   TeamCubit(this._repository, this._preferencesService) : super(TeamInitial());
 
   Future<void> loadFavoriteTeams() async {
-    final favoriteTeamsIds = await _preferencesService.getData(
-      'favorite_teams',
-    );
+    final favoriteTeamsIds = await _preferencesService.getIds('favorite_teams');
 
     emit(TeamLoading());
     try {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/domain/league.dart';
 import 'package:yarvolley_app/logic/cubits/league_cubit.dart';
 import 'package:yarvolley_app/presentation/theme/colors.dart';
+import 'package:yarvolley_app/presentation/widgets/subscribe_button.dart';
 
 class LeagueItem extends StatelessWidget {
   final League league;
@@ -45,26 +46,9 @@ class LeagueItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<LeagueCubit>().toggleFavorite(league.id);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isFavorite ? secondaryColor : primaryColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                  ),
-                  child: Text(
-                    isFavorite ? 'Отписаться' : 'Подписаться',
-                    style: const TextStyle(
-                      fontFamily: 'AppCommonFont',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                SubscribeButton(
+                  future: context.read<LeagueCubit>().toggleFavorite(league.id),
+                  condition: isFavorite,
                 ),
               ],
             ),

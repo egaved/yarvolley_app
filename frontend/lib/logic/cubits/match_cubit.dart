@@ -38,7 +38,7 @@ class MatchCubit extends Cubit<MatchState> {
   }
 
   Future<void> loadFavoriteLeaguesMatches() async {
-    final favoriteLeagues = await _preferencesService.getData(
+    final favoriteLeagues = await _preferencesService.getIds(
       'favorite_leagues',
     );
     await _loadMatchesForHomePage(favoriteLeagues);

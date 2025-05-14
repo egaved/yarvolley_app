@@ -17,10 +17,6 @@ class MatchService {
 
         const matches = await matchRepository.getLeagueMatches(leagueId);
 
-        if (matches.length === 0) {
-            throw new Error('League not found or has no matches');
-        }
-
         return matches;
     }
 
