@@ -55,9 +55,9 @@ class TeamSelectListItem extends StatelessWidget {
                 ),
                 SubscribeButton(
                   condition: isFavorite,
-                  future: context.read<TeamSelectCubit>().toggleFavorite(
-                    team.id,
-                  ),
+                  onPressed: () {
+                    context.read<TeamSelectCubit>().toggleFavorite(team.id);
+                  },
                 ),
               ],
             ),

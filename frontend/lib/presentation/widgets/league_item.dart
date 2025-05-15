@@ -47,7 +47,9 @@ class LeagueItem extends StatelessWidget {
                   ),
                 ),
                 SubscribeButton(
-                  future: context.read<LeagueCubit>().toggleFavorite(league.id),
+                  onPressed: () {
+                    context.read<LeagueCubit>().toggleFavorite(league.id);
+                  },
                   condition: isFavorite,
                 ),
               ],

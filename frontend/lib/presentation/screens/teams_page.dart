@@ -49,7 +49,10 @@ class _TeamScreenViewState extends State<_TeamScreenView> {
           return Center(child: Text(state.message));
         } else if (state is TeamLoaded) {
           return TeamDetailsWidget(
-            teamNames: state.teams.map((team) => team.name).toList(),
+            teams: state.teams,
+            unsubButtonAction: () {
+              context.read<TeamCubit>().toggleFavorite;
+            },
           );
         }
         return const Center(child: Text('Неизвестное состояние'));

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yarvolley_app/presentation/screens/team_select_page.dart';
 import 'package:yarvolley_app/presentation/theme/colors.dart';
 
 class ListAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -40,14 +41,18 @@ class ListAppBarState extends State<ListAppBar> {
                 widget.onTeamSelected(index);
               },
               child: Container(
+                alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                color: isSelected ? Colors.blue[700] : null,
+                // color: isSelected ? Colors.blue[700] : null,
                 child: Text(
                   widget.teamNames[index],
                   style: TextStyle(
                     fontFamily: 'AppCommonFont',
                     fontSize: 20,
-                    color: isSelected ? Colors.white : Colors.grey[300],
+                    color:
+                        isSelected
+                            ? Colors.white
+                            : const Color.fromARGB(255, 109, 109, 109),
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -59,7 +64,12 @@ class ListAppBarState extends State<ListAppBar> {
       actions: [
         IconButton(
           icon: Icon(Icons.add, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const TeamSelectScreen()),
+            );
+          },
         ),
       ],
     );

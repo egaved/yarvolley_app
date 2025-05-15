@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/repositories/league_repo.dart';
 import 'package:yarvolley_app/logic/cubits/team_select_cubit.dart';
+import 'package:yarvolley_app/presentation/screens/teams_page.dart';
+import 'package:yarvolley_app/presentation/theme/colors.dart';
 import 'package:yarvolley_app/presentation/widgets/common_app_bar.dart';
 import 'package:yarvolley_app/presentation/widgets/team/team_select_item.dart';
 import 'package:yarvolley_app/services/preferences_service.dart';
@@ -81,6 +83,26 @@ class _TeamSelectScreenView extends StatelessWidget {
             },
           ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(left: 50, right: 50, bottom: 25),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: secondaryColor,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(3),
+            ),
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const TeamScreen()),
+            );
+          },
+
+          child: const Text('Завершить'),
+        ),
       ),
     );
   }
