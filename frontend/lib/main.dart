@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_file.dart';
+import 'package:intl/intl.dart';
 import 'package:yarvolley_app/data/repositories/league_repo.dart';
 import 'package:yarvolley_app/data/repositories/match_repo.dart';
+import 'package:yarvolley_app/data/repositories/player_repo.dart';
 import 'package:yarvolley_app/data/repositories/team_repo.dart';
 import 'package:yarvolley_app/presentation/screens/home_page.dart';
 import 'package:yarvolley_app/presentation/screens/league_select_page.dart';
@@ -51,6 +54,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => LeagueRepository(ApiClient())),
         RepositoryProvider(create: (context) => PreferencesService()),
         RepositoryProvider(create: (context) => MatchRepository(ApiClient())),
+        RepositoryProvider(create: (context) => PlayerRepository(ApiClient())),
       ],
       child: MaterialApp(
         title: 'YarVolley',

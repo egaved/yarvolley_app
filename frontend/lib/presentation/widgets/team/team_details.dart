@@ -1,10 +1,16 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/domain/team.dart';
+import 'package:yarvolley_app/logic/cubits/match_cubit.dart';
+import 'package:yarvolley_app/logic/cubits/player_cubit.dart';
 import 'package:yarvolley_app/presentation/theme/colors.dart';
 import 'package:yarvolley_app/presentation/theme/images.dart';
+import 'package:yarvolley_app/presentation/widgets/team/roster_tab.dart';
+import 'package:yarvolley_app/presentation/widgets/team/schedule_tab.dart';
 import 'package:yarvolley_app/presentation/widgets/team/team_page_appbar.dart';
+import 'package:yarvolley_app/data/repositories/match_repo.dart';
 
 class TeamDetailsWidget extends StatefulWidget {
   final List<Team> teams;
@@ -25,14 +31,22 @@ class _TeamDetailsWidgetState extends State<TeamDetailsWidget> {
 
   @override
   void initState() {
+    // super.initState();
+    // selectedTeam = widget.teams.first;
     super.initState();
     selectedTeam = widget.teams.first;
+    if (widget.teams.isNotEmpty) {
+      context.read<MatchCubit>().loadTeamMatches(selectedTeam.id);
+      context.read<PlayerCubit>().loadTeamPlayers(selectedTeam.id);
+    }
   }
 
   void onTeamSelected(int index) {
     setState(() {
       selectedTeam = widget.teams[index];
     });
+    context.read<MatchCubit>().loadTeamMatches(selectedTeam.id);
+    context.read<PlayerCubit>().loadTeamPlayers(selectedTeam.id);
   }
 
   @override
@@ -118,31 +132,5 @@ class _TeamDetailsWidgetState extends State<TeamDetailsWidget> {
         ),
       ),
     );
-  }
-}
-
-// Виджет для вкладки "Расписание"
-class ScheduleTab extends StatelessWidget {
-  final Team team;
-
-  const ScheduleTab({super.key, required this.team});
-
-  @override
-  Widget build(BuildContext context) {
-    // Заглушка для расписания; замените на реальное содержимое
-    return Center(child: Text('Расписание для ${team.name}'));
-  }
-}
-
-// Виджет для вкладки "Состав"
-class RosterTab extends StatelessWidget {
-  final Team team;
-
-  const RosterTab({super.key, required this.team});
-
-  @override
-  Widget build(BuildContext context) {
-    // Заглушка для состава; замените на реальное содержимое
-    return Center(child: Text('Состав для ${team.name}'));
   }
 }

@@ -21,7 +21,7 @@ class MatchRepository {
         const [rows] = await pool.query(`
             SELECT * FROM \`Match\` 
             WHERE team1_id = ? OR team2_id = ?
-            ORDER BY date DESC
+            ORDER BY date ASC
         `, [teamId, teamId]);
         return rows;
     }

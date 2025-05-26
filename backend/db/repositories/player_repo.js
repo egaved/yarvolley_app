@@ -1,7 +1,7 @@
 const pool = require('../../config/connection');
 
 class PlayerRepository {
-    async createPlayer (data){
+    async createPlayer(data) {
         const { name, birth_year, height, team_id } = data;
         const [result] = await pool.query(
             'INSERT INTO Player (id, name, birth_year, height, team_id) VALUES (NULL, ?, ?, ?, ?)',
@@ -12,7 +12,7 @@ class PlayerRepository {
 
     async getPlayersByTeamId(teamId) {
         const [rows] = await pool.query(`
-            SELECT id, name, birth_year 
+            SELECT * 
             FROM Player 
             WHERE team_id = ?
         `, [teamId]);

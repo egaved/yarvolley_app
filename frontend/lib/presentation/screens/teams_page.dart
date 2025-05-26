@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yarvolley_app/data/repositories/match_repo.dart';
+import 'package:yarvolley_app/data/repositories/player_repo.dart';
 import 'package:yarvolley_app/data/repositories/team_repo.dart';
+import 'package:yarvolley_app/logic/cubits/match_cubit.dart';
+import 'package:yarvolley_app/logic/cubits/player_cubit.dart';
 import 'package:yarvolley_app/logic/cubits/team_cubit.dart';
 import 'package:yarvolley_app/presentation/screens/team_select_page.dart';
 import 'package:yarvolley_app/presentation/theme/colors.dart';
@@ -13,12 +17,26 @@ class TeamScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create:
-          (context) => TeamCubit(
-            context.read<TeamRepository>(),
-            context.read<PreferencesService>(),
-          )..loadFavoriteTeams(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create:
+              (context) => TeamCubit(
+                context.read<TeamRepository>(),
+                context.read<PreferencesService>(),
+              )..loadFavoriteTeams(),
+        ),
+        BlocProvider(
+          create:
+              (context) => MatchCubit(
+                context.read<MatchRepository>(),
+                context.read<PreferencesService>(),
+              ),
+        ),
+        BlocProvider(
+          create: (context) => PlayerCubit(context.read<PlayerRepository>()),
+        ),
+      ],
       child: const _TeamScreenView(),
     );
   }

@@ -28,15 +28,6 @@ class MatchCubit extends Cubit<MatchState> {
   MatchCubit(this._repository, this._preferencesService)
     : super(MatchInitial());
 
-  Future<Map<int, String>> _loadTeamNames(List<Match> matches) async {
-    Set<int> teamIds =
-        matches
-            .expand((match) => [match.firstTeamId, match.secondTeamId])
-            .toSet();
-    final teamNames = await _repository.getTeamNames(teamIds);
-    return teamNames;
-  }
-
   Future<void> loadFavoriteLeaguesMatches() async {
     final favoriteLeagues = await _preferencesService.getIds(
       'favorite_leagues',
@@ -71,5 +62,14 @@ class MatchCubit extends Cubit<MatchState> {
     } catch (e) {
       emit(MatchError('Не удалось загрузить матчи.'));
     }
+  }
+
+  Future<Map<int, String>> _loadTeamNames(List<Match> matches) async {
+    Set<int> teamIds =
+        matches
+            .expand((match) => [match.firstTeamId, match.secondTeamId])
+            .toSet();
+    final teamNames = await _repository.getTeamNames(teamIds);
+    return teamNames;
   }
 }
