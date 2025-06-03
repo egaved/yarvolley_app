@@ -9,3 +9,5 @@ const Color additionalColor = Color(0xFF4B7EB8);
 const Color backgroundColor = Color(0xFFDBE1FF);
 
 const Color inactiveText = Color(0xFF888888);
+
+const Color tableHeaderColor = Color(0xFFE5EBEE);

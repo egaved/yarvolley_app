@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yarvolley_app/data/domain/league.dart';
-import 'package:yarvolley_app/logic/cubits/league_cubit.dart';
 import 'package:yarvolley_app/logic/cubits/team_select_cubit.dart';
 import 'package:yarvolley_app/presentation/dto/team_dto.dart';
-import 'package:yarvolley_app/presentation/theme/colors.dart';
 import 'package:yarvolley_app/presentation/theme/images.dart';
 import 'package:yarvolley_app/presentation/widgets/subscribe_button.dart';
 
@@ -57,6 +54,9 @@ class TeamSelectListItem extends StatelessWidget {
                   condition: isFavorite,
                   onPressed: () {
                     context.read<TeamSelectCubit>().toggleFavorite(team.id);
+                    // .then(
+                    //   (_) => context.read<TeamCubit>().loadFavoriteTeams(),
+                    // );
                   },
                 ),
               ],

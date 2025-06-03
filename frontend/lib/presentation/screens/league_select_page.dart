@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/repositories/league_repo.dart';
 import 'package:yarvolley_app/logic/cubits/league_cubit.dart';
-import 'package:yarvolley_app/presentation/screens/home_page.dart';
+import 'package:yarvolley_app/presentation/screens/main_page.dart';
 import 'package:yarvolley_app/presentation/theme/colors.dart';
 import 'package:yarvolley_app/presentation/widgets/common_app_bar.dart';
-import 'package:yarvolley_app/presentation/widgets/league_item.dart';
+import 'package:yarvolley_app/presentation/widgets/league/league_item.dart';
 import 'package:yarvolley_app/services/preferences_service.dart';
 
 class LeagueSelectScreen extends StatelessWidget {
@@ -19,7 +19,7 @@ class LeagueSelectScreen extends StatelessWidget {
             context.read<LeagueRepository>(),
             context.read<PreferencesService>(),
           )..loadLeagues(),
-      child: const _LeagueSelectScreenView(),
+      child: _LeagueSelectScreenView(),
     );
   }
 }
@@ -76,13 +76,17 @@ class _LeagueSelectScreenView extends StatelessWidget {
               ),
               onPressed:
                   favoriteCount > 0
-                      ? () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
-                          ),
-                        );
+                      ? () async {
+                        if (!Navigator.of(context).canPop()) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainScreen(),
+                            ),
+                          );
+                        } else {
+                          Navigator.pop(context);
+                        }
                       }
                       : null,
               child: const Text('Завершить'),

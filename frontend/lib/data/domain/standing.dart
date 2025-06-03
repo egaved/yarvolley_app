@@ -3,16 +3,17 @@ import 'dart:convert';
 import 'dart:core';
 
 class Standing {
-  int id;
-  int gameAmount;
-  int wins;
-  int losses;
-  int position;
-  int balance;
-  int points;
-  DateTime updatedAt;
-  int leagueId;
-  int teamId;
+  final int id;
+  final int gameAmount;
+  final int wins;
+  final int losses;
+  final int position;
+  final int balance;
+  final int points;
+  final DateTime updatedAt;
+  final int leagueId;
+  final int teamId;
+  final String? teamName;
   Standing({
     required this.id,
     required this.gameAmount,
@@ -24,6 +25,7 @@ class Standing {
     required this.updatedAt,
     required this.leagueId,
     required this.teamId,
+    this.teamName,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,15 +46,16 @@ class Standing {
   factory Standing.fromMap(Map<String, dynamic> map) {
     return Standing(
       id: map['id'] as int,
-      gameAmount: map['gameAmount'] as int,
+      gameAmount: map['game_amount'] as int,
       wins: map['wins'] as int,
       losses: map['losses'] as int,
       position: map['position'] as int,
       balance: map['balance'] as int,
       points: map['points'] as int,
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updated_at'] as int),
+      updatedAt: DateTime.parse(map['updated_at'] as String),
       leagueId: map['league_id'] as int,
       teamId: map['team_id'] as int,
+      teamName: map['team_name'] as String,
     );
   }
 

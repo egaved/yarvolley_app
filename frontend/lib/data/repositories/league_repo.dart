@@ -32,4 +32,20 @@ class LeagueRepository {
       throw Exception('Не удалось загрузить лиги');
     }
   }
+
+  Future<League> getLeagueById(int leagueId) async {
+    final response = await _apiClient.get('leagues/$leagueId');
+    if (response.statusCode == 200) {
+      try {
+        final json = jsonDecode(response.body);
+        return League.fromMap(json as Map<String, dynamic>);
+      } catch (e) {
+        throw Exception('Неверный формат данных: $e');
+      }
+    } else if (response.statusCode == 404) {
+      throw Exception('Команда с ID $leagueId не найдена');
+    } else {
+      throw Exception('Ошибка загрузки данных: HTTP ${response.statusCode}');
+    }
+  }
 }

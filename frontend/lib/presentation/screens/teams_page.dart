@@ -112,12 +112,14 @@ class NoTeamsWidget extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const TeamSelectScreen(),
                   ),
-                );
+                ).then((_) {
+                  context.read<TeamCubit>().loadFavoriteTeams();
+                });
               },
               child: const Text('Выбрать'),
             ),

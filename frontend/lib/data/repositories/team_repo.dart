@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:yarvolley_app/presentation/dto/league_dto.dart';
 import 'package:yarvolley_app/services/api_service.dart';
 import 'package:yarvolley_app/data/domain/team.dart';
 
@@ -33,6 +34,18 @@ class TeamRepository {
       throw Exception('Команда с ID $teamId не найдена');
     } else {
       throw Exception('Ошибка загрузки данных: HTTP ${response.statusCode}');
+    }
+  }
+
+  Future<List<LeagueDisplay>> getLeaguesWithTeams(Set<int> leagueIds) async {
+    final response = await _apiClient.get(
+      'favorite_leagues_teams?league_ids=${leagueIds.join(',')}',
+    );
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      return body.map((json) => LeagueDisplay.fromJson(json)).toList();
+    } else {
+      throw Exception('Не удалось загрузить лиги');
     }
   }
 }

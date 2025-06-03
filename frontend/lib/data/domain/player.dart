@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'dart:core';
 
 class Player {
-  int id;
-  String name;
-  int birthYear;
-  int height;
-  int teamId;
+  final int id;
+  final String name;
+  final int birthYear;
+  final int height;
+  final int teamId;
   Player({
     required this.id,
     required this.name,

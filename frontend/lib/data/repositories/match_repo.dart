@@ -21,7 +21,7 @@ class MatchRepository {
     }
   }
 
-  Future<List<Match>> getTeamMatches(String teamId) async {
+  Future<List<Match>> getTeamMatches(int teamId) async {
     final response = await _apiClient.get('teams/$teamId/matches');
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);

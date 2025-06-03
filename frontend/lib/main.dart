@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/date_symbol_data_file.dart';
-import 'package:intl/intl.dart';
 import 'package:yarvolley_app/data/repositories/league_repo.dart';
 import 'package:yarvolley_app/data/repositories/match_repo.dart';
 import 'package:yarvolley_app/data/repositories/player_repo.dart';
+import 'package:yarvolley_app/data/repositories/standing_repo.dart';
 import 'package:yarvolley_app/data/repositories/team_repo.dart';
-import 'package:yarvolley_app/presentation/screens/home_page.dart';
 import 'package:yarvolley_app/presentation/screens/league_select_page.dart';
-import 'package:yarvolley_app/presentation/screens/team_select_page.dart';
-import 'package:yarvolley_app/presentation/screens/teams_page.dart';
+import 'package:yarvolley_app/presentation/screens/main_page.dart';
 import 'package:yarvolley_app/services/api_service.dart';
 import 'package:yarvolley_app/services/preferences_service.dart';
 
 Future<Widget> getInitialScreen(PreferencesService preferencesService) async {
   try {
     final hasData = await preferencesService.hasData('favorite_leagues');
-    // return hasData ?? false ? const HomeScreen() : const LeagueSelectScreen();
-    return const TeamSelectScreen();
+    return hasData ?? false ? const MainScreen() : const LeagueSelectScreen();
   } catch (e) {
     debugPrint('Error checking favorite leagues: $e');
-    return const TeamSelectScreen();
+    return const LeagueSelectScreen();
   }
 }
 
@@ -55,6 +51,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (context) => PreferencesService()),
         RepositoryProvider(create: (context) => MatchRepository(ApiClient())),
         RepositoryProvider(create: (context) => PlayerRepository(ApiClient())),
+        RepositoryProvider(
+          create: (context) => StandingRepository(ApiClient()),
+        ),
       ],
       child: MaterialApp(
         title: 'YarVolley',

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/domain/player.dart';
 import 'package:yarvolley_app/data/domain/team.dart';
 import 'package:yarvolley_app/logic/cubits/player_cubit.dart';
+import 'package:yarvolley_app/presentation/theme/colors.dart';
 
 class RosterTab extends StatelessWidget {
   final Team team;
@@ -36,27 +37,96 @@ class _RosterTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: DataTable(
-        headingRowHeight: 40.0,
-        columns: const [
-          DataColumn(label: Text('Игрок')),
-          DataColumn(label: Text('Рост')),
-          DataColumn(label: Text('Возраст')),
-        ],
-        rows:
-            players.map((player) {
-              final playerAge = DateTime.now;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
+        final isSmallScreen = screenWidth < 400;
 
-              return DataRow(
-                cells: [
-                  DataCell(Text(player.name)),
-                  DataCell(Text(player.height.toString())),
-                  DataCell(Text(player.birthYear.toString())),
-                ],
-              );
-            }).toList(),
-      ),
+        // Рассчитываем ширины столбцов
+        final playerColumnWidth = screenWidth * (isSmallScreen ? 0.45 : 0.50);
+        final heightColumnWidth = screenWidth * (isSmallScreen ? 0.25 : 0.25);
+        final birthYearColumnWidth =
+            screenWidth * (isSmallScreen ? 0.30 : 0.25);
+
+        return SingleChildScrollView(
+          child: SingleChildScrollView(
+            child: DataTable(
+              columnSpacing: 0,
+              headingRowHeight: 40.0,
+              dataRowMinHeight: 40.0,
+              dataRowMaxHeight: 50.0,
+              headingRowColor: WidgetStateColor.resolveWith(
+                (states) => tableHeaderColor,
+              ),
+              columns: [
+                DataColumn(
+                  label: Container(
+                    width: playerColumnWidth,
+                    alignment: Alignment.centerLeft,
+                    child: const Text('Игрок'),
+                  ),
+                  numeric: false,
+                ),
+                DataColumn(
+                  label: Container(
+                    width: heightColumnWidth,
+                    alignment: Alignment.center,
+
+                    child: Center(
+                      child: Text(isSmallScreen ? 'Рост' : 'Рост (см.)'),
+                    ),
+                  ),
+                  numeric: true,
+                ),
+                DataColumn(
+                  label: Container(
+                    width: birthYearColumnWidth,
+                    alignment: Alignment.center,
+
+                    child: Center(
+                      child: Text(isSmallScreen ? 'Г.р.' : 'Год рождения'),
+                    ),
+                  ),
+                  numeric: true,
+                ),
+              ],
+              rows:
+                  players.map((player) {
+                    return DataRow(
+                      cells: [
+                        DataCell(
+                          Container(
+                            width: playerColumnWidth,
+                            child: Text(
+                              player.name,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          SizedBox(
+                            width: heightColumnWidth,
+                            child: Center(
+                              child: Text(player.height.toString()),
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          SizedBox(
+                            width: birthYearColumnWidth,
+                            child: Center(
+                              child: Text(player.birthYear.toString()),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 }

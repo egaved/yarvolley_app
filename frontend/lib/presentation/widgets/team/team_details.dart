@@ -1,16 +1,15 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/domain/team.dart';
 import 'package:yarvolley_app/logic/cubits/match_cubit.dart';
 import 'package:yarvolley_app/logic/cubits/player_cubit.dart';
+import 'package:yarvolley_app/logic/cubits/team_cubit.dart';
+import 'package:yarvolley_app/presentation/screens/team_select_page.dart';
 import 'package:yarvolley_app/presentation/theme/colors.dart';
 import 'package:yarvolley_app/presentation/theme/images.dart';
+import 'package:yarvolley_app/presentation/widgets/list_app_bar.dart';
 import 'package:yarvolley_app/presentation/widgets/team/roster_tab.dart';
 import 'package:yarvolley_app/presentation/widgets/team/schedule_tab.dart';
-import 'package:yarvolley_app/presentation/widgets/team/team_page_appbar.dart';
-import 'package:yarvolley_app/data/repositories/match_repo.dart';
 
 class TeamDetailsWidget extends StatefulWidget {
   final List<Team> teams;
@@ -27,12 +26,10 @@ class TeamDetailsWidget extends StatefulWidget {
 }
 
 class _TeamDetailsWidgetState extends State<TeamDetailsWidget> {
-  late Team selectedTeam; // Поле класса для хранения состояния
+  late Team selectedTeam;
 
   @override
   void initState() {
-    // super.initState();
-    // selectedTeam = widget.teams.first;
     super.initState();
     selectedTeam = widget.teams.first;
     if (widget.teams.isNotEmpty) {
@@ -41,10 +38,26 @@ class _TeamDetailsWidgetState extends State<TeamDetailsWidget> {
     }
   }
 
-  void onTeamSelected(int index) {
+  void onTeamSelected(Team team) {
     setState(() {
-      selectedTeam = widget.teams[index];
+      selectedTeam = team;
     });
+    context.read<MatchCubit>().loadTeamMatches(selectedTeam.id);
+    context.read<PlayerCubit>().loadTeamPlayers(selectedTeam.id);
+  }
+
+  @override
+  void didUpdateWidget(covariant TeamDetailsWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.teams != oldWidget.teams) {
+      if (widget.teams.isNotEmpty) {
+        if (!widget.teams.contains(selectedTeam)) {
+          selectedTeam = widget.teams.first;
+        }
+      } else {
+        throw Exception("Нет избранных лиг");
+      }
+    }
     context.read<MatchCubit>().loadTeamMatches(selectedTeam.id);
     context.read<PlayerCubit>().loadTeamPlayers(selectedTeam.id);
   }
@@ -55,9 +68,15 @@ class _TeamDetailsWidgetState extends State<TeamDetailsWidget> {
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: ListAppBar(
-          teamNames: widget.teams.map((team) => team.name).toList(),
-          onTeamSelected: onTeamSelected,
+        appBar: ListAppBar<Team>(
+          items: widget.teams,
+          nameGetter: (team) => team.name,
+          onSelected: onTeamSelected,
+          selectScreenBuilder: () => TeamSelectScreen(),
+          onSelectScreenPopped:
+              () => setState(() {
+                context.read<TeamCubit>().loadFavoriteTeams();
+              }),
         ),
         body: Column(
           children: [
@@ -85,31 +104,7 @@ class _TeamDetailsWidgetState extends State<TeamDetailsWidget> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 1, bottom: 1),
-              child: GestureDetector(
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(color: primaryColor),
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 10,
-                    children: [
-                      Icon(Icons.heart_broken_sharp, color: Colors.white),
-                      Text(
-                        'Убрать из избранного',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontFamily: 'AppCommonFont',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+
             Container(
               color: primaryColor,
               child: const TabBar(
@@ -117,6 +112,7 @@ class _TeamDetailsWidgetState extends State<TeamDetailsWidget> {
                 indicatorColor: Colors.white,
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.grey,
+                enableFeedback: false,
               ),
             ),
             Expanded(

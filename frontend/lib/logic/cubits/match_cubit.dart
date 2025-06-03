@@ -21,6 +21,8 @@ class MatchError extends MatchState {
   MatchError(this.message);
 }
 
+class NoMatchesToday extends MatchState {}
+
 class MatchCubit extends Cubit<MatchState> {
   final MatchRepository _repository;
   final PreferencesService _preferencesService;
@@ -39,7 +41,7 @@ class MatchCubit extends Cubit<MatchState> {
     emit(MatchLoading());
 
     try {
-      final matches = await _repository.getTeamMatches(teamId.toString());
+      final matches = await _repository.getTeamMatches(teamId);
       final teamNames = await _loadTeamNames(matches);
       emit(MatchLoaded(matches, teamNames));
     } catch (e) {
@@ -71,5 +73,16 @@ class MatchCubit extends Cubit<MatchState> {
             .toSet();
     final teamNames = await _repository.getTeamNames(teamIds);
     return teamNames;
+  }
+
+  Future<void> loadLeagueMatches(int leagueId) async {
+    emit(MatchLoading());
+    try {
+      final matches = await _repository.getLeagueMatches(leagueId);
+      final teamNames = await _loadTeamNames(matches);
+      emit(MatchLoaded(matches, teamNames));
+    } catch (e) {
+      emit(MatchError('Не удалось загрузить матчи. ${e.toString()}'));
+    }
   }
 }

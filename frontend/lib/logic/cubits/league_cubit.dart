@@ -21,17 +21,17 @@ class LeagueError extends LeagueState {
 }
 
 class LeagueCubit extends Cubit<LeagueState> {
-  final LeagueRepository repository;
-  final PreferencesService preferencesService;
+  final LeagueRepository _repository;
+  final PreferencesService _preferencesService;
 
-  LeagueCubit(this.repository, this.preferencesService)
+  LeagueCubit(this._repository, this._preferencesService)
     : super(LeagueInitial());
 
   Future<void> loadLeagues() async {
     emit(LeagueLoading());
     try {
-      final leagues = await repository.getLeagues();
-      final favoriteIds = await preferencesService.getIds('favorite_leagues');
+      final leagues = await _repository.getLeagues();
+      final favoriteIds = await _preferencesService.getIds('favorite_leagues');
       emit(LeagueLoaded(leagues, favoriteIds.toSet()));
     } catch (e) {
       emit(LeagueError('Не удалось загрузить лиги'));
@@ -44,15 +44,30 @@ class LeagueCubit extends Cubit<LeagueState> {
       final favoriteIds = Set<int>.from(state.favoriteLeagueIds);
       if (favoriteIds.contains(leagueId)) {
         favoriteIds.remove(leagueId);
-        await preferencesService.removeFavoriteItem(
+        await _preferencesService.removeFavoriteItem(
           'favorite_leagues',
           leagueId,
         );
       } else {
         favoriteIds.add(leagueId);
-        await preferencesService.addFavoriteItem('favorite_leagues', leagueId);
+        await _preferencesService.addFavoriteItem('favorite_leagues', leagueId);
       }
       emit(LeagueLoaded(state.leagues, favoriteIds));
+    }
+  }
+
+  Future<void> loadFavoriteLeagues() async {
+    final favoriteLeagueIds = await _preferencesService.getIds(
+      'favorite_leagues',
+    );
+    emit(LeagueLoading());
+    try {
+      final List<Future<League>> futures =
+          favoriteLeagueIds.map((id) => _repository.getLeagueById(id)).toList();
+      final leagueList = await Future.wait(futures);
+      emit(LeagueLoaded(leagueList, favoriteLeagueIds.toSet()));
+    } catch (e) {
+      emit(LeagueError('Не удалось загрузить лиги. (client side)'));
     }
   }
 }

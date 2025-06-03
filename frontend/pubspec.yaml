@@ -18,11 +18,25 @@ dependencies:
   flutter_bloc: ^9.1.1
   equatable: ^2.0.5
   intl: ^0.20.2
+  flutter_native_splash: ^2.4.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+
+flutter_native_splash:
+  image: assets/yarvolley.png
+  color: "#161F6D"  # Цвет фона
+  android: true
+  ios: true
+  web: true
 
 flutter:
   uses-material-design: true

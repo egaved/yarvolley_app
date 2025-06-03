@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/domain/player.dart';
 import 'package:yarvolley_app/data/repositories/player_repo.dart';
 
-abstract class PlayerState {}
+sealed class PlayerState {}
 
 class PlayerInitial extends PlayerState {}
 

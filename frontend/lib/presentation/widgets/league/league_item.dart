@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yarvolley_app/data/domain/league.dart';
 import 'package:yarvolley_app/logic/cubits/league_cubit.dart';
-import 'package:yarvolley_app/presentation/theme/colors.dart';
 import 'package:yarvolley_app/presentation/widgets/subscribe_button.dart';
 
 class LeagueItem extends StatelessWidget {
