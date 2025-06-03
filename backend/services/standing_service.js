@@ -10,12 +10,12 @@ const REQUIRED_FIELDS = [
     'updated_at',
     'league_id',
     'team_id'
-  ];
+];
 
 class StandingService {
     async getLeagueStandings(leagueId) {
         if (!leagueId || typeof leagueId !== 'number') {
-            throw new Error('Invalid league ID'); 
+            throw new Error('Invalid league ID');
         }
 
         const standings = await standingRepository.getLeagueStandings(leagueId);
@@ -29,9 +29,9 @@ class StandingService {
     async createStanding(data) {
         const missingFields = REQUIRED_FIELDS.filter(field => !(field in data));
         if (missingFields.length > 0) {
-          throw new Error(`Missing required fields: ${missingFields.join(', ')}`); // [[2]]
+            throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
         }
-      
+
         const standingId = await standingRepository.createStanding(data);
         return { id: standingId };
     }

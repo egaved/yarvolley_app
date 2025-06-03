@@ -91,9 +91,7 @@ class NoTeamsWidget extends StatelessWidget {
       body: Align(
         alignment: Alignment.center,
         child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment
-                  .center, // Центрирование по вертикали внутри Column
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(

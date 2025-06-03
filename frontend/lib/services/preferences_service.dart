@@ -26,10 +26,7 @@ class PreferencesService {
     final prefs = await SharedPreferences.getInstance();
     final List<int> ids = await getIds(key);
     final List<String> stringList =
-        ids
-            .where((id) => id != idToRemove) // Фиксим сравнение
-            .map((id) => id.toString())
-            .toList();
+        ids.where((id) => id != idToRemove).map((id) => id.toString()).toList();
     await prefs.setStringList(key, stringList);
   }
 

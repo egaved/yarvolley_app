@@ -54,9 +54,6 @@ class TeamSelectListItem extends StatelessWidget {
                   condition: isFavorite,
                   onPressed: () {
                     context.read<TeamSelectCubit>().toggleFavorite(team.id);
-                    // .then(
-                    //   (_) => context.read<TeamCubit>().loadFavoriteTeams(),
-                    // );
                   },
                 ),
               ],

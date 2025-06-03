@@ -43,7 +43,6 @@ class ListAppBarState extends State<ListAppBar> {
               child: Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                // color: isSelected ? Colors.blue[700] : null,
                 child: Text(
                   widget.teamNames[index],
                   style: TextStyle(

@@ -3,7 +3,7 @@ const teamRepository = require('../db/repositories/team_repo.js');
 class TeamService {
   async getTeamsByLeagueId(leagueId) {
     if (!leagueId || typeof leagueId !== 'number') {
-      throw new Error('Invalid league ID'); 
+      throw new Error('Invalid league ID');
     }
 
     const teams = await teamRepository.getTeamsByLeagueId(leagueId);
@@ -22,7 +22,7 @@ class TeamService {
 
     const foundIds = teams.map(team => team.id);
     const missingIds = teamIds.filter(id => !foundIds.includes(id));
-    
+
     if (missingIds.length > 0) {
       console.warn(`Teams not found for IDs: ${missingIds}`);
     }
@@ -50,7 +50,7 @@ class TeamService {
 
   async getTeamById(teamId) {
     if (!teamId || typeof teamId !== 'number') {
-      throw new Error('Invalid team ID'); 
+      throw new Error('Invalid team ID');
     }
     const team = await teamRepository.getTeamById(teamId);
     if (team === null) {
@@ -59,7 +59,6 @@ class TeamService {
     return team;
   }
 
-  // Создать команду с валидацией
   async createTeam(data) {
     if (!data.name || !data.league_id) {
       throw new Error('Missing required fields');

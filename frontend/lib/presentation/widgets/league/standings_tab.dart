@@ -52,7 +52,7 @@ class _StandingsTabView extends StatelessWidget {
               headingRowHeight: 40.0,
               dataRowMinHeight: 40.0,
               dataRowMaxHeight: 50.0,
-              columnSpacing: 0, // Убираем дополнительный spacing
+              columnSpacing: 0,
               columns: [
                 DataColumn(
                   label: Container(
