@@ -4,7 +4,7 @@ class LeagueRepository {
 
     async getAllLeagues() {
         const [rows] = await pool.query(`
-            SELECT * FROM League
+            SELECT * FROM league
         `);
         return rows;
     }
