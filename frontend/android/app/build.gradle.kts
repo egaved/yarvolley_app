@@ -7,7 +7,7 @@ plugins {
 
 android {
     ndkVersion = "27.2.12479018"
-    namespace = "com.example.yarvolley_app"
+    namespace = "com.egaved.yarvolley_app"
     compileSdk = flutter.compileSdkVersion
 
 
@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.yarvolley_app"
+        applicationId = "com.egaved.yarvolley_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
