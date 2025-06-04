@@ -5,7 +5,7 @@ class StandingRepository {
         const [rows] = await pool.query(`
             SELECT s.*, t.name as team_name
             FROM standing s
-            JOIN Team t on s.team_id = t.id
+            JOIN team t on s.team_id = t.id
             WHERE s.league_id = ?
             ORDER BY s.points DESC
         `, [leagueId]);
