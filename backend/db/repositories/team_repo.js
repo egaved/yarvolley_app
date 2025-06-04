@@ -20,7 +20,7 @@ class TeamRepository {
   async getTeamsByLeagueIdList(leagueIdList) {
     const [rows] = await pool.query(`
       SELECT l.id AS league_id, l.name AS league_name, t.id AS team_id, t.name AS team_name
-      FROM League l
+      FROM league l
       JOIN team t ON l.id = t.league_id
         WHERE l.id IN (?)
         ORDER BY l.id, t.id
