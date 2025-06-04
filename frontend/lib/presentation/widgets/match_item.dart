@@ -63,6 +63,14 @@ class MatchItem extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Text(
+                        match.location,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w200,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         '${match.firstTeamScore ?? " - "} : ${match.secondTeamScore ?? " - "}',

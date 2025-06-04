@@ -78,7 +78,7 @@ class _ScheduleTabView extends StatelessWidget {
                 DataColumn(
                   label: Container(
                     width: opponentColumnWidth,
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.center,
                     child: Text('Соперник'),
                   ),
                   numeric: false,
@@ -124,7 +124,7 @@ class _ScheduleTabView extends StatelessWidget {
                         DataCell(
                           Container(
                             width: opponentColumnWidth,
-                            alignment: Alignment.centerLeft,
+                            alignment: Alignment.center,
                             child: Text(
                               opponent ?? 'Неизвестно',
                               overflow: TextOverflow.ellipsis,

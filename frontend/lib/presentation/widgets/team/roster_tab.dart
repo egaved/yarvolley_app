@@ -43,10 +43,10 @@ class _RosterTabView extends StatelessWidget {
         final isSmallScreen = screenWidth < 400;
 
         // Рассчитываем ширины столбцов
-        final playerColumnWidth = screenWidth * (isSmallScreen ? 0.45 : 0.50);
+        final playerColumnWidth = screenWidth * (isSmallScreen ? 0.35 : 0.40);
         final heightColumnWidth = screenWidth * (isSmallScreen ? 0.25 : 0.25);
         final birthYearColumnWidth =
-            screenWidth * (isSmallScreen ? 0.30 : 0.25);
+            screenWidth * (isSmallScreen ? 0.40 : 0.35);
 
         return SingleChildScrollView(
           child: SingleChildScrollView(
