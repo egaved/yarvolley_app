@@ -11,7 +11,7 @@ class LeagueRepository {
 
     async getLeagueById(leagueId) {
         const [rows] = await pool.query(`
-            SELECT * FROM League
+            SELECT * FROM league
             WHERE id = ?
         `, [leagueId]);
         if (rows.length === 0) {
@@ -23,7 +23,7 @@ class LeagueRepository {
     async createLeague(data) {
         const { name, is_active } = data;
         const [result] = await pool.query(`
-            INSERT INTO League (id, name, is_active)
+            INSERT INTO league (id, name, is_active)
             VALUES (NULL, ?, ?)    
         `, [name, is_active]
         );

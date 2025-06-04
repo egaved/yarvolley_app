@@ -3,7 +3,7 @@ const pool = require('../../config/connection.js');
 class MatchRepository {
     async getLeagueMatches(leagueId) {
         const [rows] = await pool.query(`
-              SELECT * FROM \`Match\`
+              SELECT * FROM \`match\`
               WHERE league_id = ?
             `, [leagueId]);
         return rows;
@@ -11,7 +11,7 @@ class MatchRepository {
 
     async getMatchById(matchId) {
         const [rows] = await pool.query(`
-            SELECT * FROM \`Match\`
+            SELECT * FROM \`match\`
             WHERE id = ?
           `, [matchId]);
         return rows;
@@ -19,14 +19,14 @@ class MatchRepository {
 
     async getTeamMatches(teamId) {
         const [rows] = await pool.query(`
-            SELECT * FROM \`Match\` 
+            SELECT * FROM \`match\` 
             WHERE team1_id = ? OR team2_id = ?
             ORDER BY date ASC
         `, [teamId, teamId]);
         return rows;
     }
 
-    async createMatch (data) {
+    async createMatch(data) {
         const {
             date,
             location,
@@ -40,7 +40,7 @@ class MatchRepository {
         } = data;
         const [result] = await pool.query(`
             INSERT INTO 
-            \`Match\` (id, date, location, is_upcoming, team1_id, team2_id,
+            \`match\` (id, date, location, is_upcoming, team1_id, team2_id,
              league_id, team1_total_score, team2_total_score, winner_team_id)
              VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)  
         `, [date, location, is_upcoming, team1_id, team2_id, league_id, team1_total_score, team2_total_score, winner_team_id]);

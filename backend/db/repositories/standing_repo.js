@@ -4,7 +4,7 @@ class StandingRepository {
     async getLeagueStandings(leagueId) {
         const [rows] = await pool.query(`
             SELECT s.*, t.name as team_name
-            FROM Standing s
+            FROM standing s
             JOIN Team t on s.team_id = t.id
             WHERE s.league_id = ?
             ORDER BY s.points DESC
@@ -26,7 +26,7 @@ class StandingRepository {
         } = data;
 
         const [result] = await pool.query(`
-            INSERT INTO Standing (id, game_amount, wins, losses,
+            INSERT INTO standing (id, game_amount, wins, losses,
              position, balance, points, updated_at, league_id, team_id)
             VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)  
         `, [game_amount, wins, losses, position, balance, points, updated_at, league_id, team_id]);
