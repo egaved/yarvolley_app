@@ -17,7 +17,7 @@ class MatchRepository {
           .map((json) => Match.fromMap(json as Map<String, dynamic>))
           .toList();
     } else {
-      throw Exception('Не удалось загрзить матчи. (client side)');
+      throw Exception('Не удалось загрзить матчи.');
     }
   }
 

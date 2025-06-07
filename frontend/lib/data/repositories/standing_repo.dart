@@ -17,7 +17,7 @@ class StandingRepository {
           .map((json) => Standing.fromMap(json as Map<String, dynamic>))
           .toList();
     } else {
-      throw Exception('Не удалось загрузить матчи. (client side)');
+      throw Exception('Не удалось загрузить положение команд.');
     }
   }
 }

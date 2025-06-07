@@ -67,7 +67,7 @@ class LeagueCubit extends Cubit<LeagueState> {
       final leagueList = await Future.wait(futures);
       emit(LeagueLoaded(leagueList, favoriteLeagueIds.toSet()));
     } catch (e) {
-      emit(LeagueError('Не удалось загрузить лиги. (client side)'));
+      emit(LeagueError('Не удалось загрузить лиги.'));
     }
   }
 }

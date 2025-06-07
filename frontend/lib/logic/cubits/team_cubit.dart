@@ -51,7 +51,7 @@ class TeamCubit extends Cubit<TeamState> {
         emit(TeamLoaded(teamList, favoriteTeamsIds.toSet()));
       }
     } catch (e) {
-      emit(TeamError('Не удалось загрузить команды. (client side)'));
+      emit(TeamError('Не удалось загрузить команды.'));
     }
   }
 

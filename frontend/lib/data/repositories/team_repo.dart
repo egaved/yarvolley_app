@@ -17,7 +17,7 @@ class TeamRepository {
           .map((json) => Team.fromMap(json as Map<String, dynamic>))
           .toList();
     } else {
-      throw Exception('Не удалось получить данные о командах. (client side)');
+      throw Exception('Не удалось получить данные о командах.');
     }
   }
 
