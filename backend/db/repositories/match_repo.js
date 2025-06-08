@@ -5,6 +5,7 @@ class MatchRepository {
         const [rows] = await pool.query(`
               SELECT * FROM \`match\`
               WHERE league_id = ?
+              ORDER BY date ASC
             `, [leagueId]);
         return rows;
     }
