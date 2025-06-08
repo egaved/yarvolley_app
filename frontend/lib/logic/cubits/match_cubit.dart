@@ -58,7 +58,8 @@ class MatchCubit extends Cubit<MatchState> {
               .toList();
       final List<List<Match>> matchList = await Future.wait(futures);
       final List<Match> allMatches =
-          matchList.expand((matches) => matches).toList();
+          matchList.expand((matches) => matches).toList()
+            ..sort((a, b) => a.date.compareTo(b.date));
       final teamNames = await _loadTeamNames(allMatches);
       emit(MatchLoaded(allMatches, teamNames));
     } catch (e) {
